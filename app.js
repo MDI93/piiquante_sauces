@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 // Importe le module Morgan
 const morgan = require('morgan');
 
+// Variable d'environnement
 const dotenv = require('dotenv');
 const result = dotenv.config();
 
@@ -27,7 +28,7 @@ mongoose.connect(`mongodb+srv://${process.env.db_username}:${process.env.db_pass
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 // Si on a utilisé mongoose.connect()
-mongoose.connection.close();
+//mongoose.connection.close();
 
 // CORS (Cross-Origin Request Sharing)
 app.use((req, res, next) => {
@@ -40,11 +41,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use((req, res, next) => {
-//   console.log(res);
-//   res.json({ message: 'Test réussi !' }); 
-//   next();
-// });
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(bodyParser.json());
