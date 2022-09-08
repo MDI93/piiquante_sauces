@@ -7,8 +7,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 // Variable d'environnement
-const dotenv = require('dotenv');
-const result = dotenv.config();
+require('dotenv').config();
 
 exports.signup = (req, res, next) => {
   const emailCryptoJs = cryptoJs.HmacSHA384(req.body.email, `${process.env.crypto_key}`).toString();
@@ -24,7 +23,6 @@ exports.signup = (req, res, next) => {
         .catch((error) => res.status(400).json({ error }));  
     })
     .catch(error => res.status(500).json({ error }));  
-  //next();
 };
  
 exports.login = (req, res, next) => {
