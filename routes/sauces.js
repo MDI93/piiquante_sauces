@@ -17,6 +17,6 @@ router.get('/:id' , auth, saucesCtrl.getOneSauce);
 // Point d'accès pour récupèrer les sauces depuis l'API
 router.get('/' , auth, saucesCtrl.getSauces);
 // Point d'accès pour ajouter un like
-router.post('/:id/like' , auth, saucesCtrl.CreateSauceLike)
+//router.post('/:id/like' , auth, saucesCtrl.CreateSauceLike)
 
 module.exports = router;

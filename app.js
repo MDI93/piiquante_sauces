@@ -6,12 +6,11 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 
 // Variable d'environnement
-const dotenv = require('dotenv');
-const result = dotenv.config();
+require('dotenv').config();
 
 // Constantes des routes
 const userRoutes = require('./routes/user');
-//const saucesRoutes = require('./routes/sauces')
+const saucesRoutes = require('./routes/sauces')
 
 // Crée une app express
 const app = express();
@@ -27,8 +26,6 @@ mongoose.connect(`mongodb+srv://${process.env.db_username}:${process.env.db_pass
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
-// Si on a utilisé mongoose.connect()
-//mongoose.connection.close();
 
 // CORS (Cross-Origin Request Sharing)
 app.use((req, res, next) => {
@@ -46,7 +43,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 app.use('/api/auth', userRoutes);
-//app.use('/api/sauces', saucesRoutes);
+app.use('/api/sauces', saucesRoutes);
 
 
 module.exports = app;
