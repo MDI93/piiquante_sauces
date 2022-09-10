@@ -1,3 +1,5 @@
+// Permettre lors de l'authentification d'avoir un mot de passe fort
+
 const passwordValidator = require('password-validator');
 
 const passwordSchema = new passwordValidator();
