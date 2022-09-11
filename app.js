@@ -10,7 +10,7 @@ require('dotenv').config();
 
 // Constantes des routes
 const userRoutes = require('./routes/user');
-const saucesRoutes = require('./routes/sauces')
+const saucesRoutes = require('./routes/sauces');
 
 // Crée une app express
 const app = express();
@@ -18,7 +18,6 @@ const app = express();
 const bodyParser = require('body-parser');
 // Logger les 'request' & 'response'
 app.use(morgan('dev'));
-
 
 // Permet de communiquer entre les deux serveurs
 mongoose.connect(`mongodb+srv://${process.env.db_username}:${process.env.db_password}@cluster0.u6qamku.mongodb.net/?retryWrites=true&w=majority`,
@@ -38,12 +37,14 @@ app.use((req, res, next) => {
   next();
 });
 
+// Permet d'utiliser le fichier 'images'
+app.use('/images', express.static('images'));
+
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(bodyParser.json());
 
 app.use('/api/auth', userRoutes);
-app.use('/api/sauces', saucesRoutes);
-
+app.use('/api/sauces', saucesRoutes,);
 
 module.exports = app;
