@@ -11,16 +11,14 @@ require('dotenv').config();
 
 exports.signup = (req, res, next) => {
   const emailCryptoJs = cryptoJs.HmacSHA384(req.body.email, `${process.env.crypto_key}`).toString();
-  //const hash =
+  console.log("debug");
   bcrypt.hash(req.body.password, 12)
     .then(hash => {
+      console.log("debug2");
       const user = new User ({
         email: emailCryptoJs, 
         password: hash
       });
-      console.log("mdp clair", req.body.password)
-      console.log("mdp crypte", hash)
-      console.log("utilisateur", user)
       user.save()
         .then(() => res.status(201).json({ message: 'New Account Created' }))
         .catch((error) => res.status(400).json({ error }));  
@@ -53,3 +51,4 @@ exports.login = (req, res, next) => {
     })
     .catch(error => res.status(500).json({ error }));
 };
+

@@ -75,6 +75,56 @@ exports.deleteSauce = (req, res, next) => {
 };
 
 // Ajouter et/ou supprimer un like
-exports.CreateSauceLike = (req, res, next) => {
+exports.LikeOrDislike = (req, res, next) => {
+  console.log("Like Or Dislike")
+// Si like = 1, l'utilisateur aime (= like) la sauce       
+    if( req.body.like === 1 ){
+      Sauces.updateOne(
+        { _id: req.params.id }, 
+        { 
+          $inc:{ likes: 1 }, 
+          $push: { usersLiked: req.body.userId }
+        }
+        )
+        .then(() => res.status(201).json({ message: 'Like has been added !' }))  
+        .catch(error => res.status(400).json({ error }));
 
-};
+// Si like = -1, l'utilisateur n'aime pas (=dislike) la sauce       
+      } else if( req.body.like === -1 ) {
+        Sauces.updateOne(
+          { _id: req.params.id }, 
+          { 
+            $inc:{ dislikes: 1 }, 
+            $push: { usersDisliked: req.body.userId }
+          }
+          )
+          .then(() => res.status(201).json({ message: 'Dislike has been added !' }))  
+          .catch(error => res.status(400).json({ error }));
+        } else {
+// Si like = 0, l'utilisateur annule son like ou son dislike  
+        Sauces.findOne({ _id: req.params.id })
+          .then((likeThumbs) => {
+            if(likeThumbs.usersLiked.includes(req.body.userId) && req.body.like === 0){
+              Sauces.updateOne(
+                { _id: req.params.id }, 
+                { 
+                  $inc:{ likes: -1 }, 
+                  $pull: { usersLiked: req.body.userId }
+                }
+                )
+                .then(() => res.status(201).json({ message: 'Like has been canceled !' }))  
+                .catch(error => res.status(400).json({ error }));
+            } else if(likeThumbs.usersDisliked.includes(req.body.userId) && req.body.like === 0) {
+              Sauces.updateOne(
+                { _id: req.params.id }, 
+                { 
+                  $inc:{ dislikes: -1 }, 
+                  $push: { usersDisliked: req.body.userId }
+                }
+                )
+                .then(() => res.status(201).json({ message: 'Dislike has been canceled !' }))  
+                .catch(error => res.status(400).json({ error }));
+            }
+        })
+          .catch(error => res.status(404).json({ error }));
+}};
