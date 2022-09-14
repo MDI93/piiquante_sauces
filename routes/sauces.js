@@ -16,6 +16,6 @@ router.put('/:id' , auth, multer, saucesCtrl.modifySauce)
 // Point d'accès pour supprimer une sauce avec son ID
 router.delete('/:id' , auth, saucesCtrl.deleteSauce)
 // Point d'accès pour ajouter un like
-router.post('/:id/like' , auth, saucesCtrl.LikeOrDislike)
+router.post('/:id/like' , auth, saucesCtrl.CreateSauceLike)
 
 module.exports = router;

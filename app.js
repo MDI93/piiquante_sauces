@@ -19,7 +19,6 @@ const bodyParser = require('body-parser');
 // Logger les 'request' & 'response'
 app.use(morgan('dev'));
 
-
 // Permet de communiquer entre les deux serveurs
 mongoose.connect(`mongodb+srv://${process.env.db_username}:${process.env.db_password}@cluster0.u6qamku.mongodb.net/?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
